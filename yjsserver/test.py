@@ -1,3 +1,8 @@
+# 测试语句
+# {"action":"connectDBAndQuery", "arg":"{\"type\":\"takeout\",\"detail\":\"overall\",\"district\":\"海淀\"}"}
+# 构造数据包的语句
+# {"data":"{\"yjsParams\":{\"package_name\":\"sys\",\"module_name\":\"sys\",\"module_class_name\":\"sys\"}}"}
+
 import sys
 import uuid
 import copy

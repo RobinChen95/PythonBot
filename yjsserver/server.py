@@ -515,8 +515,8 @@ def getObjectId():
     # "yjsRequestId": "123456"
     # }
     if request.method == "POST":
+        print(request.get_data().decode("utf-8"))
         data = json.loads(request.get_data().decode("utf-8"))
-        print(data)
         if data is None:
             yjsError["message"] = "message lack"
             yjsError["data"] = "message lack"
@@ -524,6 +524,7 @@ def getObjectId():
             return json.dumps(res)
 
         objectConfig = data["yjsParams"]
+        print(objectConfig)
         package_name = objectConfig.get("package_name", None)
         # 注意module_name 需要约定填写成 package_name.parent_module_name.module_name
         module_name = objectConfig.get("module_name", None)
