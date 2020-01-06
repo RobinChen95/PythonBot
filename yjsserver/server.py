@@ -515,6 +515,7 @@ def getObjectId():
     # "yjsRequestId": "123456"
     # }
     if request.method == "POST":
+        print("request:==========================")
         print(request.get_data().decode("utf-8"))
         data = json.loads(request.get_data().decode("utf-8"))
         if data is None:
@@ -524,7 +525,6 @@ def getObjectId():
             return json.dumps(res)
 
         objectConfig = data["yjsParams"]
-        print(objectConfig)
         package_name = objectConfig.get("package_name", None)
         # 注意module_name 需要约定填写成 package_name.parent_module_name.module_name
         module_name = objectConfig.get("module_name", None)
@@ -539,7 +539,8 @@ def getObjectId():
         # todo : add top level arguments validate
 
         result = ObjManager.newObject(objectConfig)
-        print("result====================================")
+        print("result:==========================")
+        print(result)
         if result is not None:
             res["yjsResult"]["objectId"] = result
             return json.dumps(res)

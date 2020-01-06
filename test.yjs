@@ -1,0 +1,19 @@
+contract
+AppDataContract
+{
+    export function createObject(args) {
+        /*
+      数瑞执行语句
+      {"action":"createObject", "arg":""}
+      */
+        /*
+        构造请求语句
+        {"data":"{\"yjsJsonRpc\":\"0.1\",\"yjsMethod\":\"POST\",\"yjsParams\":{\"package_name\":\"sys\",\"module_name\":\"sys\",\"module_class_name\":\"__loader__\",\"params\":{\"arg1\":\"object_id\"}},\"yjsRequestId\":\"123456\" }"}
+        */
+
+        var req = {"data": "{\"yjsJsonRpc\":\"0.1\",\"yjsMethod\":\"POST\",\"yjsParams\":{\"package_name\":\"sys\",\"module_name\":\"sys\",\"module_class_name\":\"__loader__\",\"params\":{\"arg1\":\"object_id\"}},\"yjsRequestId\":\"123456\" }"};
+        req.url = "http://127.0.0.1:5000/api/createObj/";
+        print("req:" + JSON.stringify(req));
+        return YancloudUtil.httpPost(JSON.stringify(req));
+    }
+}

@@ -1,8 +1,10 @@
-from yjspymanager.modulemanager import ModuleManager
-from yjspyserialization import mySerialization
-from yjspyoss.myoss import PyOss, PyNamesapce
-from yjspyinspect import myinspect
 import inspect
+
+from yjspyinspect import myinspect
+from yjspymanager.modulemanager import ModuleManager
+from yjspyoss.myoss import PyOss, PyNamesapce
+from yjspyserialization import mySerialization
+
 
 class ObjManager:
     def __init__(self):
@@ -68,26 +70,27 @@ class ObjManager:
         # test package import
         # bug fix , getModuleObj 返回已经import的的module_obj
         module_obj = ModuleManager.getModuleObj(module_name)
-
         module_namespace = PyNamesapce.getModuleNamespace(package_name, module_name)
-
-        class_obj = ModuleManager.getClassObj(module_obj,class_name)
+        # todo 找不到class_obj、module_obj
+        class_obj = ModuleManager.getClassObj(module_obj, class_name)
         if class_obj:
-            # 如果参数为空，则使用类的默认构造，参数不为空，需要约定使用参数的方式. 即需要处理传入参数中有其他对象的情况
-            arguments = mySerialization.get_method_input_args(parames)
-            print(arguments)
-            obj = None
-            if myinspect.is_match_sig_parameters(arguments, class_obj):
-                print("_+_+_+_+")
-                if parames is None:
-                    obj = class_obj()
-                else:
-                    try:
-                        # 类的实例化，要看到是__init__的函数签名
-                        obj = class_obj(**arguments)
-                    except:
-                        print("call constructor fail")
-                        return None
+            # 如果有参数，则使用类的默认构造，参数不为空，需要约定使用参数的方式. 即需要处理传入参数中有其他对象的情况
+            if parames:
+                arguments = mySerialization.get_method_input_args(parames)
+                print(arguments)
+                obj = None
+                if myinspect.is_match_sig_parameters(arguments, class_obj):
+                    print("_+_+_+_+")
+                    if parames is None:
+                        obj = class_obj()
+                    else:
+                        try:
+                            # 类的实例化，要看到是__init__的函数签名
+                            obj = class_obj(**arguments)
+                        except:
+                            print("call constructor fail")
+                            return None
+
 
             # todo: 出现异常，输出各种类型，这里的None的表达信息较少，不便于看清问题在哪
             obj_hash_id = PyNamesapce.getObjectHashId(module_namespace, obj)
@@ -95,7 +98,7 @@ class ObjManager:
 
             # todo: !!!!!!!!!!!! 注意如果reload module 会导致对象不一致，这个时候使用shelve会无法插入成功
             res = PyOss.insert(obj_hash_id, obj)
-            print("res",res)
+            print("res", res)
             return res
         else:
             return None
@@ -225,7 +228,6 @@ class ObjManager:
                 if name == method_name:
                     return method_obj
         return None
-
 
         #
         # if ObjManager.hasObject(object_id):

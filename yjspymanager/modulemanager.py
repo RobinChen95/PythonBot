@@ -78,6 +78,12 @@ class ModuleManager:
     @staticmethod
     def getClassObj(module_obj, class_name):
         for k, v in inspect.getmembers(module_obj, inspect.isclass):
+            # print("KKKKKKKK,module_obj:")
+            # print(k)
+            # print("VVVVVVVVV,inspect.isclass:")
+            # print(v)
+            # print("class_name")
+            # print(class_name)
             if class_name == k:
                 return v
         return None
